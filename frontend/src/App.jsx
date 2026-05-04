@@ -29,7 +29,7 @@ export default function App() {
     }
   };
 
-  // ── Save: persist to MongoDB + Excel ────────────────────────────────────────
+  // ── Save: persist to Google Sheets ─────────────────────────────────────────
   const handleSave = async () => {
     if (!studentData) return;
     setIsSaving(true);
@@ -40,16 +40,21 @@ export default function App() {
       setStudentData(null); // clear for next entry
     } catch (err) {
       console.error(err);
-      toast.error(err?.response?.data?.error || 'Failed to save. Is MongoDB running?');
+      toast.error(err?.response?.data?.error || 'Failed to save to Google Sheets.');
     } finally {
       setIsSaving(false);
     }
   };
 
+  // ── Update data when user edits JSON in ReviewPanel ────────────────────────
+  const handleDataChange = (updatedData) => {
+    setStudentData(updatedData);
+  };
+
   // ── Right panel state machine ────────────────────────────────────────────────
   const renderRightPanel = () => {
     if (isParsing) return <LoadingPanel />;
-    if (studentData) return <ReviewPanel data={studentData} onSave={handleSave} isSaving={isSaving} />;
+    if (studentData) return <ReviewPanel data={studentData} onSave={handleSave} onDataChange={handleDataChange} isSaving={isSaving} />;
     return <PlaceholderPanel />;
   };
 
@@ -115,7 +120,7 @@ export default function App() {
       {/* ── Footer ──────────────────────────────────────────────────────────── */}
       <footer className="border-t border-slate-800/60 py-4 text-center">
         <p className="text-xs text-slate-600">
-          Powered by <span className="text-blue-500">Groq</span> · MongoDB · Express · React
+          Powered by <span className="text-blue-500">Groq</span> · Google Sheets · React
         </p>
       </footer>
     </div>

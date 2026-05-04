@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+
 /**
  * A single field row in the review table.
  */
@@ -31,11 +33,44 @@ function SectionRow({ title, icon }) {
   );
 }
 
-export default function ReviewPanel({ data, onSave, isSaving }) {
+export default function ReviewPanel({ data, onSave, onDataChange, isSaving }) {
   const academic = data?.academic || {};
   const ssc = academic.ssc || {};
   const hsc = academic.hsc || {};
   const bsc = academic.bsc || {};
+
+  // ── Editable JSON state ───────────────────────────────────────────────────
+  const [jsonText, setJsonText] = useState('');
+  const [jsonOpen, setJsonOpen] = useState(false);
+  const [jsonError, setJsonError] = useState('');
+
+  // ── Feedback state ────────────────────────────────────────────────────────
+  const [feedback, setFeedback] = useState(data?.feedback ?? '');
+
+  // Sync jsonText whenever data changes from outside (new parse)
+  useEffect(() => {
+    setJsonText(JSON.stringify(data, null, 2));
+    setJsonError('');
+    setFeedback(data?.feedback ?? '');
+  }, [data]);
+
+  // Apply edited JSON back to parent
+  const handleApplyJson = () => {
+    try {
+      const parsed = JSON.parse(jsonText);
+      setJsonError('');
+      onDataChange({ ...parsed, feedback });
+    } catch {
+      setJsonError('⚠ Invalid JSON — please fix syntax errors before applying.');
+    }
+  };
+
+  // Apply feedback change to parent data
+  const handleFeedbackChange = (e) => {
+    const val = e.target.value;
+    setFeedback(val);
+    onDataChange({ ...data, feedback: val });
+  };
 
   return (
     <div className="glass-card p-6 flex flex-col gap-4 h-full animate-slide-up">
@@ -74,22 +109,59 @@ export default function ReviewPanel({ data, onSave, isSaving }) {
             <FieldRow label="HSC Result" value={hsc.result} />
             <FieldRow label="HSC Year" value={hsc.year} />
 
-            {/* Academic — BSc */}
-            <SectionRow title="BSc" icon="🎓" />
-            <FieldRow label="BSc Result" value={bsc.result} />
-            <FieldRow label="BSc Year" value={bsc.year} />
+            {/* Academic — Bachelor */}
+            <SectionRow title="Bachelor" icon="🎓" />
+            <FieldRow label="Bachelor Result" value={bsc.result} />
+            <FieldRow label="Bachelor Year" value={bsc.year} />
           </tbody>
         </table>
       </div>
 
-      {/* Raw JSON toggle (developer view) */}
-      <details className="text-xs">
+      {/* ── Feedback field ──────────────────────────────────────────────────── */}
+      <div className="flex flex-col gap-1.5">
+        <label className="text-xs font-semibold text-slate-400 uppercase tracking-widest">
+          💬 Feedback / Notes
+        </label>
+        <textarea
+          id="field-feedback"
+          rows={2}
+          value={feedback}
+          onChange={handleFeedbackChange}
+          placeholder="Add any notes or feedback for this record…"
+          className="w-full resize-none rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2 text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
+        />
+      </div>
+
+      {/* ── Editable JSON ───────────────────────────────────────────────────── */}
+      <details
+        className="text-xs"
+        open={jsonOpen}
+        onToggle={(e) => setJsonOpen(e.target.open)}
+      >
         <summary className="cursor-pointer text-slate-500 hover:text-slate-300 transition-colors select-none">
-          View raw JSON
+          {jsonOpen ? '▾ Hide' : '▸ Edit'} raw JSON
         </summary>
-        <pre className="mt-2 p-3 bg-slate-900 rounded-lg text-slate-300 overflow-auto scrollbar-thin max-h-48 text-[11px] leading-relaxed">
-          {JSON.stringify(data, null, 2)}
-        </pre>
+
+        <div className="mt-2 flex flex-col gap-2">
+          <textarea
+            id="field-raw-json"
+            rows={10}
+            value={jsonText}
+            onChange={(e) => { setJsonText(e.target.value); setJsonError(''); }}
+            spellCheck={false}
+            className="w-full resize-y rounded-lg border border-slate-700/60 bg-slate-900 px-3 py-2 text-[11px] font-mono text-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all"
+          />
+          {jsonError && (
+            <p className="text-[11px] text-red-400">{jsonError}</p>
+          )}
+          <button
+            id="btn-apply-json"
+            onClick={handleApplyJson}
+            className="self-end px-4 py-1.5 rounded-lg bg-purple-600/20 border border-purple-500/30 text-xs font-semibold text-purple-300 hover:bg-purple-600/40 transition-all"
+          >
+            ✓ Apply JSON changes
+          </button>
+        </div>
       </details>
 
       {/* Save button */}
@@ -105,7 +177,7 @@ export default function ReviewPanel({ data, onSave, isSaving }) {
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
-            Saving to MongoDB & Google Sheets...
+            Saving to Google Sheets…
           </>
         ) : (
           <>
@@ -113,7 +185,7 @@ export default function ReviewPanel({ data, onSave, isSaving }) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                 d="M5 13l4 4L19 7" />
             </svg>
-            Approve & Export to Google Sheets
+            Approve &amp; Export to Google Sheets
           </>
         )}
       </button>

@@ -1,5 +1,4 @@
 const Groq = require('groq-sdk');
-const Student = require('../models/Student');
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 const { JWT } = require('google-auth-library');
 const { google } = require('googleapis');
@@ -87,7 +86,7 @@ const parseText = async (req, res) => {
   }
 };
 
-// ─── Controller: Save Student Record ─────────────────────────────────────────
+// ─── Controller: Save Student Record to Google Sheets ────────────────────────
 const saveStudent = async (req, res) => {
   try {
     const data = req.body;
@@ -96,12 +95,7 @@ const saveStudent = async (req, res) => {
       return res.status(400).json({ error: 'Student data is required.' });
     }
 
-    // 1. Save to MongoDB
-    const student = new Student(data);
-    await student.save();
-    console.log(`✅ Saved to MongoDB: ${student._id}`);
-
-    // 2. Save to Google Sheets
+    // Save to Google Sheets
     const serviceAccountAuth = new JWT({
       email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
       key: (process.env.GOOGLE_PRIVATE_KEY || '').replace(/\\n/g, '\n'),
@@ -124,13 +118,14 @@ const saveStudent = async (req, res) => {
         'SSC Year',
         'HSC Result',
         'HSC Year',
-        'BSc Result',
-        'BSc Year',
+        'Bachelor Result',
+        'Bachelor Year',
         'Passport',
         'Language',
         'Interested Subject',
         'Preferred Degree',
         'Phone',
+        'Feedback',
       ]);
     }
 
@@ -141,13 +136,14 @@ const saveStudent = async (req, res) => {
       'SSC Year': data.academic?.ssc?.year ?? '',
       'HSC Result': data.academic?.hsc?.result ?? '',
       'HSC Year': data.academic?.hsc?.year ?? '',
-      'BSc Result': data.academic?.bsc?.result ?? '',
-      'BSc Year': data.academic?.bsc?.year ?? '',
+      'Bachelor Result': data.academic?.bsc?.result ?? '',
+      'Bachelor Year': data.academic?.bsc?.year ?? '',
       'Passport': data.passport ?? '',
       'Language': data.language ?? '',
       'Interested Subject': data.subject ?? '',
       'Preferred Degree': data.preferred_degree ?? '',
       'Phone': data.phone ? `'${data.phone}` : '',
+      'Feedback': data.feedback ?? '',
     };
 
     const addedRow = await sheet.addRow(newRow);
@@ -156,10 +152,10 @@ const saveStudent = async (req, res) => {
     // Format the header and the newly added row
     try {
       // Load a single range covering both the header row and the newly added row
-      await sheet.loadCells(`A1:M${addedRow.rowNumber}`);
+      await sheet.loadCells(`A1:N${addedRow.rowNumber}`);
 
       // Format Header (Row 0)
-      for (let i = 0; i < 13; i++) {
+      for (let i = 0; i < 14; i++) {
         const cell = sheet.getCell(0, i);
         cell.backgroundColor = { red: 59/255, green: 130/255, blue: 246/255 }; // Blue background
         cell.textFormat = { bold: true, foregroundColor: { red: 1, green: 1, blue: 1 } }; // White text
@@ -169,7 +165,7 @@ const saveStudent = async (req, res) => {
       }
 
       // Format New Data Row — wrap text and center align
-      for (let i = 0; i < 13; i++) {
+      for (let i = 0; i < 14; i++) {
         const cell = sheet.getCell(addedRow.rowNumber - 1, i);
         cell.horizontalAlignment = 'CENTER';
         cell.verticalAlignment = 'MIDDLE';
@@ -198,6 +194,13 @@ const saveStudent = async (req, res) => {
                 fields: 'pixelSize',
               },
             },
+            {
+              updateDimensionProperties: {
+                range: { sheetId: sheet.sheetId, dimension: 'COLUMNS', startIndex: 13, endIndex: 14 }, // Feedback
+                properties: { pixelSize: 200 },
+                fields: 'pixelSize',
+              },
+            },
           ],
         },
       });
@@ -206,8 +209,7 @@ const saveStudent = async (req, res) => {
     }
 
     return res.status(201).json({
-      message: '✅ Saved to Database & Google Sheets!',
-      id: student._id,
+      message: '✅ Saved to Google Sheets!',
     });
   } catch (error) {
     console.error('Save error:', error);
