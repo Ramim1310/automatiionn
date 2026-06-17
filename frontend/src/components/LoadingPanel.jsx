@@ -13,16 +13,16 @@ export default function LoadingPanel() {
       {/* Gemini animation */}
       <div className="flex flex-col items-center justify-center py-8 gap-4">
         <div className="relative w-16 h-16">
-          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 animate-spin-slow opacity-30 blur-sm" />
-          <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/30">
+          <div className="absolute inset-0 rounded-full bg-blue-500 animate-spin-slow opacity-20 blur-md" />
+          <div className="relative w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center shadow-sm">
             <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-1 14.5v-9l7 4.5-7 4.5z" />
             </svg>
           </div>
         </div>
         <div className="text-center">
-          <p className="text-sm font-semibold text-slate-200">Groq is analyzing your text...</p>
-          <p className="text-xs text-slate-500 mt-1">Extracting structured student data</p>
+          <p className="text-sm font-semibold text-slate-800">Groq is analyzing your text...</p>
+          <p className="text-xs text-slate-600 mt-1">Extracting structured student data</p>
         </div>
       </div>
 

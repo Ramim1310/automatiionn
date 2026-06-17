@@ -61,30 +61,30 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* ── Header ──────────────────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-50 border-b border-slate-800/60 bg-slate-950/80 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             {/* Logo */}
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/30">
+            <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center shadow-sm">
               <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
               </svg>
             </div>
             <div>
-              <h1 className="text-base font-bold text-white tracking-tight">StudentAI</h1>
+              <h1 className="text-base font-bold text-slate-900 tracking-tight">StudentAI</h1>
               <p className="text-[10px] text-slate-500 leading-none">Automated Data Entry</p>
             </div>
           </div>
 
           <div className="flex items-center gap-4">
             {savedCount > 0 && (
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-semibold text-emerald-400 animate-fade-in">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-semibold text-emerald-700 animate-fade-in">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 {savedCount} saved this session
               </div>
             )}
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-medium text-blue-300">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-xs font-medium text-blue-700">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
               Groq Llama 3.3
             </div>
           </div>
@@ -95,10 +95,10 @@ export default function App() {
       <main className="flex-1 max-w-7xl mx-auto w-full px-6 py-8">
         {/* Hero text */}
         <div className="mb-8 text-center">
-          <h2 className="text-3xl font-extrabold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
+          <h2 className="text-3xl font-bold text-slate-900">
             Turn Unstructured Text into Structured Data
           </h2>
-          <p className="mt-2 text-slate-400 text-sm max-w-xl mx-auto">
+          <p className="mt-2 text-slate-600 text-sm max-w-xl mx-auto">
             Paste any raw student information — Groq AI will extract name, academic records, passport, language test, and more in seconds.
           </p>
         </div>
@@ -118,9 +118,9 @@ export default function App() {
       </main>
 
       {/* ── Footer ──────────────────────────────────────────────────────────── */}
-      <footer className="border-t border-slate-800/60 py-4 text-center">
-        <p className="text-xs text-slate-600">
-          Powered by <span className="text-blue-500">Groq</span> · Google Sheets · React
+      <footer className="border-t border-slate-200 py-4 text-center">
+        <p className="text-xs text-slate-500">
+          Powered by <span className="text-blue-600">Groq</span> · Google Sheets · React
         </p>
       </footer>
     </div>

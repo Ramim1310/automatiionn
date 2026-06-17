@@ -8,9 +8,9 @@ function FieldRow({ label, value, highlight }) {
   const isEmpty = display === '—';
 
   return (
-    <tr className={`border-b border-slate-700/60 transition-colors hover:bg-slate-800/40 ${highlight ? 'bg-blue-950/20' : ''}`}>
+    <tr className={`border-b border-slate-100 transition-colors hover:bg-slate-50 ${highlight ? 'bg-blue-50/50' : ''}`}>
       <td className="py-2.5 px-4 field-label text-slate-400 w-44 whitespace-nowrap">{label}</td>
-      <td className={`py-2.5 px-4 text-sm font-medium ${isEmpty ? 'text-slate-600 italic' : 'text-slate-100'}`}>
+      <td className={`py-2.5 px-4 text-sm font-medium ${isEmpty ? 'text-slate-400 italic' : 'text-slate-800'}`}>
         {display}
       </td>
     </tr>
@@ -24,7 +24,7 @@ function SectionRow({ title, icon }) {
   return (
     <tr>
       <td colSpan={2} className="pt-5 pb-1 px-4">
-        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-blue-400">
+        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-blue-600">
           <span>{icon}</span>
           <span>{title}</span>
         </div>
@@ -77,16 +77,16 @@ export default function ReviewPanel({ data, onSave, onDataChange, isSaving }) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-bold text-white">Review Extracted Data</h2>
-          <p className="text-xs text-slate-400 mt-0.5">Verify the AI extraction before saving</p>
+          <h2 className="text-lg font-bold text-slate-900">Review Extracted Data</h2>
+          <p className="text-xs text-slate-500 mt-0.5">Verify the AI extraction before saving</p>
         </div>
-        <span className="badge bg-blue-500/15 text-blue-300 border border-blue-500/30">
+        <span className="badge bg-blue-50 text-blue-700 border border-blue-200">
           ✦ AI Extracted
         </span>
       </div>
 
       {/* Table */}
-      <div className="flex-1 overflow-y-auto scrollbar-thin rounded-xl border border-slate-700/50">
+      <div className="flex-1 overflow-y-auto scrollbar-thin rounded-xl border border-slate-200">
         <table className="w-full">
           <tbody>
             {/* Personal Info */}
@@ -119,7 +119,7 @@ export default function ReviewPanel({ data, onSave, onDataChange, isSaving }) {
 
       {/* ── Feedback field ──────────────────────────────────────────────────── */}
       <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-semibold text-slate-400 uppercase tracking-widest">
+        <label className="text-xs font-semibold text-slate-600 uppercase tracking-widest">
           💬 Feedback / Notes
         </label>
         <textarea
@@ -128,7 +128,7 @@ export default function ReviewPanel({ data, onSave, onDataChange, isSaving }) {
           value={feedback}
           onChange={handleFeedbackChange}
           placeholder="Add any notes or feedback for this record…"
-          className="w-full resize-none rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2 text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
+          className="w-full resize-none rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
         />
       </div>
 
@@ -138,7 +138,7 @@ export default function ReviewPanel({ data, onSave, onDataChange, isSaving }) {
         open={jsonOpen}
         onToggle={(e) => setJsonOpen(e.target.open)}
       >
-        <summary className="cursor-pointer text-slate-500 hover:text-slate-300 transition-colors select-none">
+        <summary className="cursor-pointer text-slate-500 hover:text-slate-700 transition-colors select-none">
           {jsonOpen ? '▾ Hide' : '▸ Edit'} raw JSON
         </summary>
 
@@ -149,15 +149,15 @@ export default function ReviewPanel({ data, onSave, onDataChange, isSaving }) {
             value={jsonText}
             onChange={(e) => { setJsonText(e.target.value); setJsonError(''); }}
             spellCheck={false}
-            className="w-full resize-y rounded-lg border border-slate-700/60 bg-slate-900 px-3 py-2 text-[11px] font-mono text-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all"
+            className="w-full resize-y rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-[11px] font-mono text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
           />
           {jsonError && (
-            <p className="text-[11px] text-red-400">{jsonError}</p>
+            <p className="text-[11px] text-red-600">{jsonError}</p>
           )}
           <button
             id="btn-apply-json"
             onClick={handleApplyJson}
-            className="self-end px-4 py-1.5 rounded-lg bg-purple-600/20 border border-purple-500/30 text-xs font-semibold text-purple-300 hover:bg-purple-600/40 transition-all"
+            className="self-end px-4 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-200 transition-all"
           >
             ✓ Apply JSON changes
           </button>

@@ -21,21 +21,21 @@ export default function InputPanel({ onProcess, isLoading }) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-bold text-white">Input Panel</h2>
-          <p className="text-xs text-slate-400 mt-0.5">Paste any unstructured student text below</p>
+          <h2 className="text-lg font-bold text-slate-900">Input Panel</h2>
+          <p className="text-xs text-slate-500 mt-0.5">Paste any unstructured student text below</p>
         </div>
         <div className="flex gap-2">
           <button
             id="btn-load-sample"
             onClick={handleSample}
-            className="text-xs px-3 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300 transition-colors"
+            className="text-xs px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors"
           >
             Load Sample
           </button>
           <button
             id="btn-clear-text"
             onClick={handleClear}
-            className="text-xs px-3 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300 transition-colors"
+            className="text-xs px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors"
           >
             Clear
           </button>
@@ -50,9 +50,9 @@ export default function InputPanel({ onProcess, isLoading }) {
         placeholder="Paste unstructured student data here...&#10;&#10;e.g. SSC GPA 5.00 in 2015, HSC 4.75 in 2017, BSc CGPA 3.8 from BUET 2022, IELTS 7.0, Passport A1234567, Phone 01712345678, Interested in CS..."
         className="
           flex-1 min-h-[320px] resize-none rounded-xl p-4
-          bg-slate-800/60 border border-slate-700
-          text-slate-200 placeholder-slate-500 text-sm leading-relaxed
-          focus:outline-none focus:border-blue-500/70 transition-all duration-200
+          bg-slate-50 border border-slate-200
+          text-slate-800 placeholder-slate-400 text-sm leading-relaxed
+          focus:outline-none focus:border-blue-500 focus:bg-white transition-all duration-200
           scrollbar-thin
         "
       />
@@ -61,7 +61,7 @@ export default function InputPanel({ onProcess, isLoading }) {
       <div className="flex items-center justify-between text-xs text-slate-500">
         <span>{text.length} characters</span>
         {text.length > 0 && (
-          <span className="text-emerald-400">Ready to process</span>
+          <span className="text-emerald-600">Ready to process</span>
         )}
       </div>
 

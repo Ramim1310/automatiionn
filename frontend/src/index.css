@@ -8,11 +8,7 @@
   }
 
   body {
-    @apply bg-slate-950 text-slate-100 antialiased;
-    background-image:
-      radial-gradient(ellipse at 20% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
-    background-attachment: fixed;
+    @apply bg-slate-50 text-slate-800 antialiased;
     min-height: 100vh;
   }
 
@@ -23,40 +19,40 @@
 
 @layer components {
   .glass-card {
-    @apply bg-slate-900/70 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl;
+    @apply bg-white border border-slate-200 rounded-2xl shadow-sm;
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm
-           bg-gradient-to-r from-blue-600 to-blue-500 text-white
-           hover:from-blue-500 hover:to-blue-400
-           active:scale-[0.98] transition-all duration-200 shadow-lg shadow-blue-500/25
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-medium text-sm
+           bg-blue-600 text-white
+           hover:bg-blue-700
+           active:scale-[0.98] transition-all duration-200 shadow-sm
            disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none;
   }
 
   .btn-success {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm
-           bg-gradient-to-r from-emerald-600 to-emerald-500 text-white
-           hover:from-emerald-500 hover:to-emerald-400
-           active:scale-[0.98] transition-all duration-200 shadow-lg shadow-emerald-500/25
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-medium text-sm
+           bg-emerald-600 text-white
+           hover:bg-emerald-700
+           active:scale-[0.98] transition-all duration-200 shadow-sm
            disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none;
   }
 
   .field-label {
-    @apply text-xs font-semibold uppercase tracking-widest text-slate-400;
+    @apply text-xs font-semibold uppercase tracking-wider text-slate-500;
   }
 
   .field-value {
-    @apply text-sm font-medium text-slate-100;
+    @apply text-sm font-medium text-slate-800;
   }
 
   .badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold;
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
   }
 
   .scrollbar-thin {
     scrollbar-width: thin;
-    scrollbar-color: #334155 transparent;
+    scrollbar-color: #cbd5e1 transparent;
   }
 
   .scrollbar-thin::-webkit-scrollbar {
@@ -68,14 +64,14 @@
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    background-color: #334155;
+    background-color: #cbd5e1;
     border-radius: 3px;
   }
 }
 
 /* Textarea focus glow */
 textarea:focus {
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2), 0 0 20px rgba(59, 130, 246, 0.08);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 /* Smooth loading shimmer */
@@ -85,7 +81,7 @@ textarea:focus {
 }
 
 .shimmer {
-  background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
   border-radius: 6px;
