@@ -29,10 +29,10 @@ export default function PlaceholderPanel() {
       {/* Steps */}
       <div className="w-full max-w-xs space-y-3 mt-2">
         {[
-          { step: '01', label: 'Paste raw text', icon: '📋' },
-          { step: '02', label: 'AI extracts structured data', icon: '🤖' },
-          { step: '03', label: 'Review & approve', icon: '✅' },
-          { step: '04', label: 'Saved to MongoDB + Excel', icon: '💾' },
+          { step: '01', label: 'Paste raw text', icon: '' },
+          { step: '02', label: 'AI extracts structured data', icon: '' },
+          { step: '03', label: 'Review & approve', icon: '' },
+          { step: '04', label: 'Saved to MongoDB + Excel', icon: '' },
         ].map(({ step, label, icon }) => (
           <div key={step} className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
             <span className="text-lg">{icon}</span>
